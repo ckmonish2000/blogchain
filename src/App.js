@@ -4,7 +4,7 @@ import { ethers } from "ethers"
 import Posts from "./artifacts/contracts/Posts.sol/Posts.json"
 import { useState } from "react"
 
-const Post_contract = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+const Post_contract = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
 const Blog_contarct = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
 
 
@@ -23,7 +23,7 @@ function App() {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const contract = new ethers.Contract(Post_contract, Posts.abi, provider)
       try {
-        const data = await contract.get_Posts_for_user()
+        const data = await contract.get_Posts()
         console.log(data)
       } catch (err) {
         console.log(err)
@@ -41,6 +41,21 @@ function App() {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(Post_contract, Posts.abi, signer)
       const transaction = await contract.createPost(title, desc, image)
+      await transaction.wait()
+      get_All_User_Posts()
+    }
+  }
+
+
+  async function sendAmount() {
+
+
+    if (window.ethereum !== undefined) {
+      await requestAccount()
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(Post_contract, Posts.abi, signer)
+      const transaction = await contract.donate(0)
       await transaction.wait()
       get_All_User_Posts()
     }
@@ -76,6 +91,7 @@ function App() {
 
         <button onClick={handle_submit}>submit</button>
       </div>
+      <button onClick={sendAmount}>Donate</button>
     </div>
   );
 }

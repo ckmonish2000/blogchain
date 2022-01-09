@@ -27,15 +27,12 @@ contract Posts is Blog{
         _userpost.current += value;
     }
 
-    function get_Posts_for_user() view public returns(Post[] memory) {
+    function get_Posts() view public returns(Post[] memory) {
         Post[] memory data = new Post[](blogCount);
 
         for(uint i=0; i < blogCount;i++){
             Post memory val = posts[i];
-            if(val.author == msg.sender){
                 data[i] = val;
-                console.log(val.current);
-            }
      }
      return data;
     }
