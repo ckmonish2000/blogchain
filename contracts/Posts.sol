@@ -24,6 +24,7 @@ contract Posts is Blog{
     function donate(uint _postid) public payable{
         Post storage _userpost = posts[_postid];
         uint value = msg.value;
+        console.log(msg.value);
         _userpost.current += value;
     }
 

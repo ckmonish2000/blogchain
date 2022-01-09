@@ -4,9 +4,7 @@ import { ethers } from "ethers"
 import Posts from "./artifacts/contracts/Posts.sol/Posts.json"
 import { useState } from "react"
 
-const Post_contract = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
-const Blog_contarct = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
-
+const Post_contract = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
 
 function App() {
   const [title, setTitle] = useState("")
@@ -55,7 +53,8 @@ function App() {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner();
       const contract = new ethers.Contract(Post_contract, Posts.abi, signer)
-      const transaction = await contract.donate(0)
+      const options = { value: ethers.utils.parseEther("1.0") }
+      const transaction = await contract.donate(0, options)
       await transaction.wait()
       get_All_User_Posts()
     }
@@ -64,7 +63,7 @@ function App() {
   //   const provider = new ethers.providers.Web3Provider(window.ethereum)
   //   console.log(window.ethereum._state)
   // }
-
+  console.log(ethers.utils.formatEther("0x0de0b6b3a7640000"))
 
   return (
     <div className="App">
