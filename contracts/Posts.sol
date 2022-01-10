@@ -41,7 +41,7 @@ contract Posts is Blog{
     function withdraw_funds(uint _postid) public payable{
         Post storage val = posts[_postid];
         address payable _postowner = payable(val.author);
-        require(val.author != msg.sender,"you are not authorized");
+        // require(val.author != msg.sender,"you are not authorized");
         
         _postowner.transfer(val.current);
         val.current = 0;
